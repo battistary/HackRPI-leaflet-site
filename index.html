@@ -9,17 +9,40 @@
 <body style="margin: 0;">
     <div id="map" style="height: 100vh;">
         <script>
-            var map = L.map('map', {
-                center: [42.72985, -73.6797],
-                zoom: 17
-            });
+            // Create a variable for the map object
+                // Use the 'map' command to tell leaflet you're creating a map
+                // use the 'setView()' command to set the view of the map, it has three parameters:
+                    // ([Longitude, Latitude], Zoom Level)
+            var map = L.map('map').setView([42.729889, -73.676489], 17);
+
+            // Add a marker over the student union
+            var su_marker = L.marker([42.729888, -73.676490]).addTo(map);
+            su_marker.bindPopup("This is the student union!");
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
 
-            map.locate({setView: true});
+            var polygon = L.polygon([
+                [42.733034, -73.683479],
+                [42.731536, -73.681419],
+                [42.730591, -73.676183],
+                [42.729062, -73.672643],
+                [42.726193, -73.67348],
+                [42.728132, -73.684895]], {
+                    color: 'red',
+                    fillColor: '#f22222'
+                }).addTo(map);
+
+            // Function to print long/lat at point of click.
+            function onMapClick(e) {
+                alert(e.latlng);
+            }
+
+            map.on('click', onMapClick);
+
+            // map.locate({setView: true}); Set location using user's location
         </script>
     </div>
 </body>
