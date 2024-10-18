@@ -3,8 +3,8 @@
 <head>
     <title>HackRPI Leaflet Map</title>
     <link rel="shortcut icon" type="image/x-icon" href="https://leafletjs.com/docs/images/favicon.ico">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body style="margin: 0;">
     <div id="map" style="height: 100vh;">
@@ -15,13 +15,22 @@
                     // ([Longitude, Latitude], Zoom Level)
             var map = L.map('map').setView([42.729889, -73.676489], 17);
 
-            // Add a marker over the student union
-            var su_marker = L.marker([42.729888, -73.676490]).addTo(map);
-            su_marker.bindPopup("This is the student union!");
-
+            // Fill in the map
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            // Add a marker over the student union
+            var su_marker = L.marker([42.729888, -73.676490]).addTo(map);
+            
+            su_marker.bindPopup("This is the student union!");
+
+            var circle = L.circle([42.729888, -73.676490], {
+                opacity: 0.5,
+                weight: 10,
+                fillColor: 'red',
+                radius: 30
             }).addTo(map);
 
             var polygon = L.polygon([
@@ -40,9 +49,11 @@
                 alert(e.latlng);
             }
 
+            // Connect the function to any clicks.
             map.on('click', onMapClick);
 
-            // map.locate({setView: true}); Set location using user's location
+            // Set location using user's location
+            map.locate({setView: true}); 
         </script>
     </div>
 </body>
